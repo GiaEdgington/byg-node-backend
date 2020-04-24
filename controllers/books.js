@@ -23,18 +23,19 @@ exports.getBooks = async (req, res) => {
             let resJson = await result.json();
             
             let title = resJson.items[0].volumeInfo.title === "undefined" ? "" : resJson.items[0].volumeInfo.title;
-            let authors = resJson.items[0].volumeInfo.authors === "undefined" ? "" : resJson.items[0].volumeInfo.authors;
+            let author = [""]; //resJson.items[0].volumeInfo.authors === "undefined" ? "" : resJson.items[0].volumeInfo.authors;
+            if (typeof (resJson.items[0].volumeInfo.authors) !== "undefined"){
+                author = resJson.items[0].volumeInfo.authors;
+            }
             let image = resJson.items[0].volumeInfo.imageLinks === "undefined" ? "" : resJson.items[0].volumeInfo.imageLinks.smallThumbnail;
             let synopsis = resJson.items[0].volumeInfo.description === "undefined" ? "Information not available." : resJson.items[0].volumeInfo.description;
 
-            let bookData = [
-                {
+            let bookData = {
                     "title": title, 
-                    "author" : authors,
+                    "author" : author,
                     "image": image,
                     "synopsis": synopsis 
-                }
-            ];
+                };
 
             bookList.push(bookData);
             }) 
