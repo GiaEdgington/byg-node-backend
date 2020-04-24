@@ -2,7 +2,7 @@ const fetch = require('node-fetch');
 
 exports.getBooks = async (req, res) => {
 
-    const GOOGLE_BOOKS_API_KEY = 'AIzaSyCUZDVxJS93fWmpk3QKfscn15qz7segx-4';
+    const GOOGLE_BOOKS_API_KEY = 'AIzaSyCH0tIhWJCGZf1HFjw_hRFlJ0vlNuLVtf8';
     let destination = "Chicago";
     let books = [];
     var bookList = [];
@@ -27,10 +27,16 @@ exports.getBooks = async (req, res) => {
             let image = resJson.items[0].volumeInfo.imageLinks === "undefined" ? "" : resJson.items[0].volumeInfo.imageLinks.smallThumbnail;
             let synopsis = resJson.items[0].volumeInfo.description === "undefined" ? "Information not available." : resJson.items[0].volumeInfo.description;
 
-            let bookData = [ title, authors, image, synopsis ];
+            let bookData = [
+                {
+                    "title": title, 
+                    "author" : authors,
+                    "image": image,
+                    "synopsis": synopsis 
+                }
+            ];
 
             bookList.push(bookData);
-            //console.log(resJson.items[0].volumeInfo.authors);
             }) 
         );
         res.send(bookList);
