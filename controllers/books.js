@@ -3,9 +3,10 @@ const fetch = require('node-fetch');
 exports.getBooks = async (req, res) => {
 
     const GOOGLE_BOOKS_API_KEY = 'AIzaSyCH0tIhWJCGZf1HFjw_hRFlJ0vlNuLVtf8';
-    let destination = "Chicago";
+    let destination = req.query.destination;
     let books = [];
     var bookList = [];
+    //console.log(destination);
 
     try{
         //Fetch Wikipedia API for books destination based --- LIMIT SET TO 5
