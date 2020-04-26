@@ -23,13 +23,13 @@ exports.getBooks = async (req, res) => {
             let result = await fetch(`https://www.googleapis.com/books/v1/volumes?q=+title:${book}&maxResults=1&key=${GOOGLE_BOOKS_API_KEY}`);
             let resJson = await result.json();
             
-            let title = resJson.items[0].volumeInfo.title === "undefined" ? "" : resJson.items[0].volumeInfo.title;
+            let title = typeof resJson.items[0].volumeInfo.title === "undefined" ? "" : resJson.items[0].volumeInfo.title;
             let author = [""]; //resJson.items[0].volumeInfo.authors === "undefined" ? "" : resJson.items[0].volumeInfo.authors;
             if (typeof (resJson.items[0].volumeInfo.authors) !== "undefined"){
                 author = resJson.items[0].volumeInfo.authors;
             }
-            let image = resJson.items[0].volumeInfo.imageLinks === "undefined" ? "" : resJson.items[0].volumeInfo.imageLinks.smallThumbnail;
-            let synopsis = resJson.items[0].volumeInfo.description === "undefined" ? "Information not available." : resJson.items[0].volumeInfo.description;
+            let image = typeof resJson.items[0].volumeInfo.imageLinks === "undefined" ? "" : resJson.items[0].volumeInfo.imageLinks.smallThumbnail;
+            let synopsis = typeof resJson.items[0].volumeInfo.description === "undefined" ? "Information not available." : resJson.items[0].volumeInfo.description;
 
             let bookData = {
                     "title": title, 
