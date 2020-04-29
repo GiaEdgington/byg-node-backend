@@ -23,6 +23,7 @@ exports.getBooks = async (req, res) => {
             let result = await fetch(`https://www.googleapis.com/books/v1/volumes?q=+title:${book}&maxResults=1&key=${GOOGLE_BOOKS_API_KEY}`);
             let resJson = await result.json();
             
+            let id = typeof resJson.items[0].id === "undefined" ? "" : resJson.items[0].id;
             let title = typeof resJson.items[0].volumeInfo.title === "undefined" ? "" : resJson.items[0].volumeInfo.title;
             let author = [""]; //resJson.items[0].volumeInfo.authors === "undefined" ? "" : resJson.items[0].volumeInfo.authors;
             if (typeof (resJson.items[0].volumeInfo.authors) !== "undefined"){
@@ -32,10 +33,11 @@ exports.getBooks = async (req, res) => {
             let synopsis = typeof resJson.items[0].volumeInfo.description === "undefined" ? "Information not available." : resJson.items[0].volumeInfo.description;
 
             let bookData = {
+                    "id": id,
                     "title": title, 
                     "author" : author,
                     "image": image,
-                    "synopsis": synopsis 
+                    "synopsis": synopsis
                 };
 
             bookList.push(bookData);
