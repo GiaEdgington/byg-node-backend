@@ -23,7 +23,10 @@ app.get('/', (req, res) => {
 })
 
 mongoose.connect(
-    'mongodb+srv://gia-edgington:password_db@clusternode-szpnr.mongodb.net/before_you_go?retryWrites=true'
+    'mongodb+srv://gia-edgington:password_db@clusternode-szpnr.mongodb.net/before_you_go?retryWrites=true', {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    }
 )
 .then(result => {
     app.listen(3000);
