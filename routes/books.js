@@ -5,4 +5,6 @@ const router = express.Router();
 
 router.get('/books', booksController.getBooks);
 
+router.post('/book', booksController.saveBook);
+
 module.exports = router;

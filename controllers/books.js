@@ -48,3 +48,27 @@ exports.getBooks = async (req, res) => {
         console.log(err);
     }
 };
+
+exports.saveBook = (req, res) => {
+    
+    const title = req.body.title;
+    const author = req.body.author;
+    const image = req.body.image;
+    const synopsis = req.body.synopsis;
+
+    const book = new book({
+        title: title,
+        author: author,
+        image: image,
+        synopsis: synopsis
+    });
+    try {
+        await book.save();
+        res.status(201).json({
+            message: 'Book saved.',
+            book: book
+        });
+    } catch(err) {
+        console.log(err);
+    }
+};
