@@ -12,6 +12,6 @@ const destinationSchema = new Schema({
             ref: 'Book'
         }
     ]
-})
+});
 
 module.exports = mongoose.model('Destination', destinationSchema);
