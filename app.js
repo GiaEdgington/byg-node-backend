@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 const cors = require('cors');
 
 const app = express();
@@ -21,4 +22,12 @@ app.get('/', (req, res) => {
     res.send('Before You Go');
 })
 
-app.listen(3000);
+mongoose.connect(
+    'mongodb+srv://gia-edgington:password_db@clusternode-szpnr.mongodb.net/before_you_go?retryWrites=true'
+)
+.then(result => {
+    app.listen(3000);
+})
+.catch(err => {
+    console.log(err)
+});
