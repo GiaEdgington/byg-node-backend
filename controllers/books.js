@@ -53,25 +53,28 @@ exports.getBooks = async (req, res) => {
 };
 
  exports.saveBook = async (req, res) => {
-
     const title = req.body.title;
     const author = req.body.author;
     const image = req.body.image;
     const synopsis = req.body.synopsis;
     const location = req.body.location;
 
-    const book = new Book({
-        title: title,
-        author: author,
-        image: image,
-        synopsis: synopsis,
-        location: location
-    });
     try {
+    const book = await Book.findOne({location: location, title: title});
+
+    if(!book) {
+        book = new Book({
+            title: title,
+            author: author,
+            image: image,
+            synopsis: synopsis,
+            location: location
+        });
         await book.save();
         const destination = await Destination.findById(location);
         destination.books.push(book);
         await destination.save();
+    }
         res.status(201).json({
             message: 'Book saved.',
             book: book
