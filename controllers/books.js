@@ -16,14 +16,18 @@ exports.getBooks = async (req, res) => {
         const response = await fetch(encodeURI(`https://en.wikipedia.org/w/api.php?action=query&format=json&list=categorymembers&cmtitle=Category:${destination}&cmlimit=5&origin=*`));
 
         const bookTitles = await response.json();
+        console.log(bookTitles.query.categorymembers);
 
         await bookTitles.query.categorymembers.forEach(title => { 
+            //check for duplicates
+            if(!books.includes(title.title))
             books.push(title.title);
         });
 
+        //console.log(books);
+
         //Need to await Promise.all for aditional async fetch
-        //Turn books into unique collection with new Set
-        await Promise.all([...new Set(books)].map(async (book) => {
+        await Promise.all(books.map(async (book) => {
             let result = await fetch(`https://www.googleapis.com/books/v1/volumes?q=+title:${book}&maxResults=1&key=${GOOGLE_BOOKS_API_KEY}`);
             let resJson = await result.json();
             
