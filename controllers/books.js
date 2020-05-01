@@ -89,6 +89,22 @@ exports.getBooks = async (req, res) => {
     }
 };
 
+exports.getDestinations = async (req, res) => {
+    try{
+        const totalDestinations = await Destination.find().countDocuments();
+        const destinations = await Destination.find();
+
+        res.status(200)
+        .json({ 
+            message: 'Fetched destinations', 
+            destinations: destinations.location, 
+            totalDestinations: totalDestinations
+        });
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 exports.addDestination = async (req, res) => {
     const location = req.body.location;
     const books = req.body.books;

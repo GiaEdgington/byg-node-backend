@@ -6,6 +6,8 @@ const router = express.Router();
 
 router.get('/books', booksController.getBooks);
 
+router.get('/destinations', booksController.getDestinations);
+
 router.post('/book', booksController.saveBook);
 
 router.post('/destination', booksController.addDestination);
