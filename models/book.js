@@ -20,7 +20,8 @@ const bookSchema = new Schema({
     },
     location: {
         type: Schema.Types.ObjectId,
-        ref: 'Destination'
+        ref: 'Destination',
+        required: true
         }
     },
     {timestamps: true}
