@@ -17,8 +17,14 @@ const bookSchema = new Schema({
         },
     synopsis: {
         type: String
-    }
-});
+    },
+    location: {
+        type: Schema.Types.ObjectId,
+        ref: 'Destination'
+        }
+    },
+    {timestamps: true}
+);
 
 module.exports = mongoose.model('Book', bookSchema);
 
