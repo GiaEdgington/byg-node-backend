@@ -58,7 +58,7 @@ exports.getBooks = async (req, res) => {
     const author = req.body.author;
     const image = req.body.image;
     const synopsis = req.body.synopsis;
-    const location = req.body.destination;
+    const location = req.body.location;
 
     const book = new Book({
         title: title,
@@ -69,6 +69,7 @@ exports.getBooks = async (req, res) => {
     });
     try {
         await book.save();
+        const destination = await Destination.findById(location);
         destination.books.push(book);
         await destination.save();
         res.status(201).json({
@@ -92,8 +93,9 @@ exports.addDestination = async (req, res) => {
         await destination.save();
         res.status(201).json({
             message: 'Destination created.',
-            destination: destination
+            id: destination._id
         });
+        console.log(destination);
     } catch (err) {
         console.log(err);
     }
