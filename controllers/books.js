@@ -20,9 +20,10 @@ exports.getBooks = async (req, res) => {
         await bookTitles.query.categorymembers.forEach(title => { 
             books.push(title.title);
         });
- 
+
         //Need to await Promise.all for aditional async fetch
-        await Promise.all(books.map(async (book) => {
+        //Turn books into unique collection with new Set
+        await Promise.all([...new Set(books)].map(async (book) => {
             let result = await fetch(`https://www.googleapis.com/books/v1/volumes?q=+title:${book}&maxResults=1&key=${GOOGLE_BOOKS_API_KEY}`);
             let resJson = await result.json();
             
@@ -60,7 +61,7 @@ exports.getBooks = async (req, res) => {
     const location = req.body.location;
 
     try {
-    const book = await Book.findOne({location: location, title: title});
+    let book = await Book.findOne({location: location, title: title});
 
     if(!book) {
         book = new Book({
@@ -89,7 +90,7 @@ exports.addDestination = async (req, res) => {
     const books = req.body.books;
 
     try {
-        const destination = await Destination.findOne({location: location});
+        let destination = await Destination.findOne({location: location});
         if(!destination) {
             destination = new Destination({
             location:location,
