@@ -85,18 +85,21 @@ exports.addDestination = async (req, res) => {
     const location = req.body.location;
     const books = req.body.books;
 
-    const destination = new Destination({
-        location:location,
-        books: books
-    });
     try {
-        await destination.save();
+        const destination = await Destination.findOne({location: location});
+        if(!destination) {
+            destination = new Destination({
+            location:location,
+            books: books
+            });
+            await destination.save();
+        }
         res.status(201).json({
             message: 'Destination created.',
             id: destination._id
         });
-        console.log(destination);
-    } catch (err) {
+        //console.log(destination);
+        } catch (err) {
         console.log(err);
     }
 };
