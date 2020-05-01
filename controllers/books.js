@@ -58,14 +58,14 @@ exports.getBooks = async (req, res) => {
     const author = req.body.author;
     const image = req.body.image;
     const synopsis = req.body.synopsis;
-    const destination = destination;
+    const location = req.body.destination;
 
     const book = new Book({
         title: title,
         author: author,
         image: image,
         synopsis: synopsis,
-        //destination: destination
+        location: location
     });
     try {
         await book.save();
@@ -82,10 +82,11 @@ exports.getBooks = async (req, res) => {
 
 exports.addDestination = async (req, res) => {
     const location = req.body.location;
+    const books = req.body.books;
 
     const destination = new Destination({
         location:location,
-        books: []
+        books: books
     });
     try {
         await destination.save();
