@@ -1,5 +1,7 @@
 const fetch = require('node-fetch');
 
+const Book = require('../models/book');
+
 exports.getBooks = async (req, res) => {
 
     const GOOGLE_BOOKS_API_KEY = 'AIzaSyCH0tIhWJCGZf1HFjw_hRFlJ0vlNuLVtf8';
@@ -23,7 +25,7 @@ exports.getBooks = async (req, res) => {
             let result = await fetch(`https://www.googleapis.com/books/v1/volumes?q=+title:${book}&maxResults=1&key=${GOOGLE_BOOKS_API_KEY}`);
             let resJson = await result.json();
             
-            let id = typeof resJson.items[0].id === "undefined" ? "" : resJson.items[0].id;
+            let id = typeof resJson.items[0].volumeInfo.industryIdentifiers[0].identifier === "undefined" ? "" : resJson.items[0].volumeInfo.industryIdentifiers[0].identifier;
             let title = typeof resJson.items[0].volumeInfo.title === "undefined" ? "" : resJson.items[0].volumeInfo.title;
             let author = [""]; //resJson.items[0].volumeInfo.authors === "undefined" ? "" : resJson.items[0].volumeInfo.authors;
             if (typeof (resJson.items[0].volumeInfo.authors) !== "undefined"){
@@ -49,14 +51,14 @@ exports.getBooks = async (req, res) => {
     }
 };
 
-exports.saveBook = (req, res) => {
+ exports.saveBook = async (req, res) => {
     
     const title = req.body.title;
     const author = req.body.author;
     const image = req.body.image;
     const synopsis = req.body.synopsis;
 
-    const book = new book({
+    const book = new Book({
         title: title,
         author: author,
         image: image,
