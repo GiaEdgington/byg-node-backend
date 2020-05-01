@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
 
 const Book = require('../models/book');
+const Destination = require('../models/destination');
 
 exports.getBooks = async (req, res) => {
 
@@ -52,25 +53,47 @@ exports.getBooks = async (req, res) => {
 };
 
  exports.saveBook = async (req, res) => {
-    
+
     const title = req.body.title;
     const author = req.body.author;
     const image = req.body.image;
     const synopsis = req.body.synopsis;
+    const destination = destination;
 
     const book = new Book({
         title: title,
         author: author,
         image: image,
-        synopsis: synopsis
+        synopsis: synopsis,
+        //destination: destination
     });
     try {
         await book.save();
+        destination.books.push(book);
+        await destination.save();
         res.status(201).json({
             message: 'Book saved.',
             book: book
         });
     } catch(err) {
+        console.log(err);
+    }
+};
+
+exports.addDestination = async (req, res) => {
+    const location = req.body.location;
+
+    const destination = new Destination({
+        location:location,
+        books: []
+    });
+    try {
+        await destination.save();
+        res.status(201).json({
+            message: 'Destination created.',
+            destination: destination
+        });
+    } catch (err) {
         console.log(err);
     }
 };
