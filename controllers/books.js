@@ -53,19 +53,26 @@ exports.getBooks = async (req, res) => {
         );
 
         //need to filter bookList
-        let bookId = [];
-
-        await bookList.forEach(book => {
-            bookId.push(book.id)
+        let uniqList = [];
+        let bookIds = await bookList.map(book => {
+            return book.id;
         });
 
-        let uniqList = await bookList.filter(book => {
-            //console.log(book);
-            return !bookId.includes(book.id);
-        })
+        let uniqBookIds = [...new Set(bookIds)];
 
+        bookList.forEach(book => {
+            let index = uniqBookIds.indexOf(book.id);
+
+            if(uniqBookIds.includes(book.id)){
+                uniqList.push(book);
+                if(index > -1){
+                    uniqBookIds.splice(index, 1);
+                }
+            }
+        });
+
+        //console.log(uniqBookIds);
         //console.log(uniqList);
-        console.log(bookId);
         res.send(uniqList);
 
     } catch (err) {
