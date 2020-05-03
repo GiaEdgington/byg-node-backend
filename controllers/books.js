@@ -5,7 +5,7 @@ const Destination = require('../models/destination');
 
 exports.getBooks = async (req, res) => {
 
-    const GOOGLE_BOOKS_API_KEY = 'AIzaSyCH0tIhWJCGZf1HFjw_hRFlJ0vlNuLVtf8';
+    const GOOGLE_BOOKS_API_KEY = 'AIzaSyCUZDVxJS93fWmpk3QKfscn15qz7segx-4';
     let destination = req.query.destination;
     let books = [];
     var bookList = [];
@@ -16,7 +16,7 @@ exports.getBooks = async (req, res) => {
         const response = await fetch(encodeURI(`https://en.wikipedia.org/w/api.php?action=query&format=json&list=categorymembers&cmtitle=Category:${destination}&cmlimit=5&origin=*`));
 
         const bookTitles = await response.json();
-        console.log(bookTitles.query.categorymembers);
+        //console.log(bookTitles.query.categorymembers);
 
         await bookTitles.query.categorymembers.forEach(title => { 
             //check for duplicates
@@ -48,10 +48,26 @@ exports.getBooks = async (req, res) => {
                     "synopsis": synopsis
                 };
 
-            bookList.push(bookData);
+                bookList.push(bookData);
             }) 
         );
-        res.send(bookList);
+
+        //need to filter bookList
+        let bookId = [];
+
+        await bookList.forEach(book => {
+            bookId.push(book.id)
+        });
+
+        let uniqList = await bookList.filter(book => {
+            //console.log(book);
+            return !bookId.includes(book.id);
+        })
+
+        //console.log(uniqList);
+        console.log(bookId);
+        res.send(uniqList);
+
     } catch (err) {
         console.log(err);
     }
