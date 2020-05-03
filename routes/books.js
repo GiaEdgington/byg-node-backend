@@ -4,7 +4,9 @@ const booksController = require('../controllers/books');
 
 const router = express.Router();
 
-router.get('/books', booksController.getBooks);
+router.get('/books', booksController.fetchBooks);
+
+router.get('/saved-books', booksController.getBooks);
 
 router.get('/destinations', booksController.getDestinations);
 
