@@ -117,10 +117,14 @@ exports.getDestinations = async (req, res) => {
         const totalDestinations = await Destination.find().countDocuments();
         const destinations = await Destination.find();
 
+        let setting = destinations.destinations;
+
+        const locations = destinations.map(setting => setting.location);
+
         res.status(200)
         .json({ 
             message: 'Fetched destinations', 
-            destinations: destinations.location, 
+            destinations: locations, 
             totalDestinations: totalDestinations
         });
     } catch (err) {
