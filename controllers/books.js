@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 const Book = require('../models/book');
 const Destination = require('../models/destination');
 
-exports.getBooks = async (req, res) => {
+exports.fetchBooks = async (req, res) => {
 
     const GOOGLE_BOOKS_API_KEY = 'AIzaSyCUZDVxJS93fWmpk3QKfscn15qz7segx-4';
     let destination = req.query.destination;
@@ -111,6 +111,20 @@ exports.getBooks = async (req, res) => {
         console.log(err);
     }
 };
+
+exports.getBooks = async (req, res) => {
+    try{
+        const books = await Book.find();
+
+        res.status(200)
+        .json({
+            message: 'Saved books.',
+            books: books
+        });
+    } catch (err) {
+        console.log(err)
+    }
+}
 
 exports.getDestinations = async (req, res) => {
     try{
