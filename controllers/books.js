@@ -115,7 +115,6 @@ exports.fetchBooks = async (req, res) => {
 exports.getBooks = async (req, res) => {
     try{
         const books = await Book.find();
-
         res.status(200)
         .json({
             message: 'Saved books.',
@@ -134,10 +133,12 @@ exports.getDestinations = async (req, res) => {
         let setting = destinations.destinations;
 
         const locations = destinations.map(setting => setting.location);
+        const destinationId = destinations.map(location => location._id);
 
         res.status(200)
         .json({ 
             message: 'Fetched destinations', 
+            destinationId: destinationId,
             destinations: locations, 
             totalDestinations: totalDestinations
         });
