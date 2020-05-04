@@ -134,18 +134,35 @@ exports.getDestinations = async (req, res) => {
 
         const locations = destinations.map(setting => setting.location);
         const destinationId = destinations.map(location => location._id);
+        //get books for destination
+        //const books = await Book.find({location: destinationId});
 
         res.status(200)
         .json({ 
             message: 'Fetched destinations', 
             destinationId: destinationId,
-            destinations: locations, 
-            totalDestinations: totalDestinations
+            destinations: locations
         });
     } catch (err) {
         console.log(err);
     }
 };
+
+exports.getDestination = async (req, res) => {
+    let destinationId = req.params.destinationId;
+
+    try {
+        const destination = await Destination.findOne({ _id: destinationId });
+
+        res.status(200)
+        .json({
+            message: 'Destination info.',
+            destination: destination
+        });
+    } catch (err) {
+        console.log(err);
+    }  
+}
 
 exports.addDestination = async (req, res) => {
     const location = req.body.location;

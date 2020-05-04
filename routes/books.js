@@ -10,6 +10,8 @@ router.get('/saved-books', booksController.getBooks);
 
 router.get('/destinations', booksController.getDestinations);
 
+router.get('/destination/:destinationId', booksController.getDestination);
+
 router.post('/book', booksController.saveBook);
 
 router.post('/destination', booksController.addDestination);
