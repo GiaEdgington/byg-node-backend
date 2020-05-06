@@ -8,6 +8,8 @@ router.get('/books', booksController.fetchBooks);
 
 router.get('/saved-books', booksController.getBooks);
 
+router.get('/book/:bookId', booksController.getBook);
+
 router.get('/destinations', booksController.getDestinations);
 
 router.get('/destination/:destinationId', booksController.getDestination);

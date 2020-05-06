@@ -121,9 +121,24 @@ exports.getBooks = async (req, res) => {
             books: books
         });
     } catch (err) {
-        console.log(err)
+        console.log(err);
     }
 }
+
+exports.getBook = async (req, res) => {
+    let bookId = req.params.bookId;
+
+    try {
+        const book = await Book.findOne({ _id: bookId });
+        res.status(200)
+        .json({
+            message: 'Book info.',
+            book: book
+        });
+    } catch (err) {
+        console.log(err);
+    }
+};
 
 exports.getDestinations = async (req, res) => {
     try{
