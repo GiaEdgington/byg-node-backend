@@ -150,13 +150,14 @@ exports.getDestinations = async (req, res) => {
         const locations = destinations.map(setting => setting.location);
         const destinationId = destinations.map(location => location._id);
         //get books for destination
-        //const books = await Book.find({location: destinationId});
+        const books = await Book.find({location: destinationId});
 
         res.status(200)
         .json({ 
             message: 'Fetched destinations', 
             destinationId: destinationId,
-            destinations: locations
+            destinations: locations,
+            books: books
         });
     } catch (err) {
         console.log(err);
@@ -168,11 +169,13 @@ exports.getDestination = async (req, res) => {
 
     try {
         const destination = await Destination.findOne({ _id: destinationId });
+        const books = await Book.find({location: destinationId});
 
         res.status(200)
         .json({
             message: 'Destination info.',
-            destination: destination
+            destination: destination,
+            books: books
         });
     } catch (err) {
         console.log(err);
