@@ -175,7 +175,8 @@ exports.getDestination = async (req, res) => {
         .json({
             message: 'Destination info.',
             destination: destination,
-            books: books
+            books: books,
+            location: destination.location
         });
     } catch (err) {
         console.log(err);
