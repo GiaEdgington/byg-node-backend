@@ -9,14 +9,13 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true
-    },
-    destinations: [
+    }
+/*     destinations: [
         {
             type: Schema.Types.ObjectId,
             ref: 'Destination'
         }
-    ]
-
+    ] */
 })
 
 module.exports = mongoose.model('User', userSchema);
