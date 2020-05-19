@@ -6,11 +6,13 @@ const cors = require('cors');
 const app = express();
 
 const bookRoutes = require('./routes/books');
+const authRoutes = require('./routes/auth');
 
 app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/', bookRoutes);
+app.use('/auth', authRoutes);
 
 app.use((req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
