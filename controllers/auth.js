@@ -1,11 +1,21 @@
+const bcrypt = require('bcrypt');
+
 const User = require('../models/user');
 
 
 let authController = {
     signup: async (req, res) => {
+
+        let username = req.body.username;
+        let password = req.body.password;
+
         try{
-            let newUser = new User(req.body);
-            let result = await newUser.save();
+            let hashPassword = await bcrypt.hash(password, 12);
+            let user = new User({
+                username: username,
+                password: hashPassword
+            });
+            let result = await user.save();
             res.json({ message: 'User created!', userId: result._id });
         } catch (err){
             console.log(err);
