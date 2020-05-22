@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-
+const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
 
@@ -22,10 +22,20 @@ let authController = {
         }  
     },
     login: async (req, res) => {
+        let username = req.body.username;
+        let password = req.body.password;
+        let loadedUser;
         try {
-            const user = User.findOne({username: req.body.username});
+            const user = await User.findOne({ username: username });
             if(!user){
                 const error = new Error('User not found');
+                error.statusCode = 401;
+                throw error;
+            }
+            loadedUser = user;
+            const verified = await bcrypt.compare(password, user.password);
+            if(!verified){
+                const error = new Error('Wrong password');
                 error.statusCode = 401;
                 throw error;
             }
