@@ -39,6 +39,15 @@ let authController = {
                 error.statusCode = 401;
                 throw error;
             }
+            const token = jwt.sign(
+                {
+                    username: loadedUser.username,
+                    userId: loadedUser._id.toString()
+                },
+                'bygsecret',
+                {expiresIn: '1h'}
+            );
+            res.status(200).json({ token: token, userId: loadedUser._id.toString() })
         } catch (err) {
             console.log(err);
         }
