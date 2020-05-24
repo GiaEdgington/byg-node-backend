@@ -47,6 +47,7 @@ let authController = {
                 'bygsecret',
                 {expiresIn: '1h'}
             );
+            //console.log(token);
             res.status(200).json({ token: token, userId: loadedUser._id.toString() })
         } catch (err) {
             console.log(err);
