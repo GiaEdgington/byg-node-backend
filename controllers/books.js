@@ -205,3 +205,7 @@ exports.addDestination = async (req, res) => {
         console.log(err);
     }
 };
+
+exports.removeDestination = async (req, res) => {
+
+};
