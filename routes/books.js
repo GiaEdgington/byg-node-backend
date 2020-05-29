@@ -18,4 +18,6 @@ router.post('/book', booksController.saveBook);
 
 router.post('/destination', booksController.addDestination);
 
+router.delete('/destination', booksController.removeDestination);
+
 module.exports = router;
