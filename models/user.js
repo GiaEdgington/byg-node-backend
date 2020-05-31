@@ -16,6 +16,8 @@ const userSchema = new Schema({
             ref: 'Destination'
         }
     ]
-})
+});
+
+//write schema method
 
 module.exports = mongoose.model('User', userSchema);
