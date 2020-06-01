@@ -187,6 +187,7 @@ exports.addDestination = async (req, res) => {
     const location = req.body.location;
     const books = req.body.books;
     const userId = req.body.user;
+
     try {
         let destination = await Destination.findOne({location: location});
         if(!destination) {
@@ -208,8 +209,7 @@ exports.addDestination = async (req, res) => {
 };
 
 exports.removeDestination = async (req, res) => {
-    const destinationId = req.body.destinationId;
-
+    const destinationId = req.params.destinationId;
     try{
         Destination.findByIdAndRemove(destinationId);
         console.log('removed destination');
