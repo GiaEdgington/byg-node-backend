@@ -19,5 +19,10 @@ const userSchema = new Schema({
 });
 
 //write schema method
+/* userSchema.methods.removeDestination = function(destination) {
+    destination.books = [];
+    return destinationSchema.save;
+}
+ */
 
 module.exports = mongoose.model('User', userSchema);
