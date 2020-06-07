@@ -2,6 +2,7 @@ const fetch = require('node-fetch');
 
 const Book = require('../models/book');
 const Destination = require('../models/destination');
+const User = require('../models/user');
 
 exports.fetchBooks = async (req, res) => {
 
@@ -187,7 +188,7 @@ exports.addDestination = async (req, res) => {
     const location = req.body.location;
     const books = req.body.books;
     const userId = req.body.user;
-
+    //console.log(user);
     try {
         let destination = await Destination.findOne({location: location});
         if(!destination) {
@@ -197,6 +198,9 @@ exports.addDestination = async (req, res) => {
             user: userId
             });
             await destination.save();
+            const user = await User.findById(userId);
+            user.destinations.push(destination);
+            await user.save();
         }
         res.status(201).json({
             message: 'Destination created.',

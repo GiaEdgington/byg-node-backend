@@ -19,6 +19,5 @@ const destinationSchema = new Schema({
     }
 });
 
-//write schema method
 
 module.exports = mongoose.model('Destination', destinationSchema);
