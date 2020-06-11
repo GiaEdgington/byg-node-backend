@@ -12,7 +12,7 @@ exports.fetchBooks = async (req, res) => {
     var bookList = [];
     //console.log(destination);
 
-    try{
+    try {
         //Fetch Wikipedia API for books destination based --- LIMIT SET TO 5
         const response = await fetch(encodeURI(`https://en.wikipedia.org/w/api.php?action=query&format=json&list=categorymembers&cmtitle=Category:${destination}&cmlimit=5&origin=*`));
 
@@ -214,9 +214,19 @@ exports.addDestination = async (req, res) => {
 
 exports.removeDestination = async (req, res) => {
     const destinationId = req.params.destinationId;
-    try{
-        Destination.findByIdAndRemove(destinationId);
-        console.log('removed destination');
+    try {
+        const destination = await Destination.findByIdAndRemove(destinationId);
+        if(!destination){
+            const error = new Error('Could not find destination.');
+            error.statusCode = 404;
+            throw error;
+        }
+        if(destination.user.toString() !== req.user){
+            const error = new Error('Not authorized.');
+            error.statusCode = 403;
+            throw error;
+        }
+        //
     } catch (err) {
         console.log(err);
     }
