@@ -226,7 +226,10 @@ exports.removeDestination = async (req, res) => {
             error.statusCode = 403;
             throw error;
         }
-        //
+        await Destination.findByIdAndRemove(destinationId);
+        user.destinations.pull(destinationId);
+        await user.save();
+        res.status(200).json({ message: 'Removed destination'});
     } catch (err) {
         console.log(err);
     }
